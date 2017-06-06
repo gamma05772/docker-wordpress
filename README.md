@@ -47,7 +47,7 @@ $ sudo docker ps
 0.0.0.0:9001->9001/tcp
 ```
 
-You can use also volume mount, `wp-content` directory.
+You can use also volume mount, `wp-content` directory for *theme*, *plugins* and so on.
 
 ```bash
 $ sudo docker run -p80:80 -p9001:9001 --name wordpress -d -v/host/directory/wp-content:/usr/share/nginx/www/wp-content 9to5/wordpress
