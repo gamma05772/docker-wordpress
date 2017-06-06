@@ -37,7 +37,7 @@ Stop and remove
 $ sudo docker rm -f wordpress
 ```
 
-After starting the 9to5/wordpress check to see if it started and the port mapping is correct. 
+After starting the 9to5/wordpress check to see if it started and the port mapping is correct.  
 This will also report the port mapping between the docker container and the host machine.
 
 ```
@@ -59,9 +59,9 @@ You can use supervisord admin web page
 http://yoursitedomain.com:9001
 ```
 
-default username and password is:
-username: `supervisor`
-password: `supervisor()`
+default username and password is:  
+username: `supervisor`  
+password: `supervisor()`  
 
 You can also change these.
 
