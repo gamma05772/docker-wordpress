@@ -18,14 +18,20 @@ RUN apt-get install -y mariadb-client
 RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
 # Basic Requirements
-RUN apt-get install -y nginx curl git unzip php php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php-apcu php7.0-zip vim wget pwgen
+RUN apt-get install -y curl git unzip php php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php-apcu php7.0-zip vim wget pwgen
 
 # Nginx Settings
+RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ xenial nginx" >> /etc/apt/sources.list
+RUN echo "deb-src http://nginx.org/packages/mainline/ubuntu/ xenial nginx" >> /etc/apt/sources.list
+RUN wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key && \
+	apt-get update && apt-get install -y nginx
+
 RUN sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf
 RUN sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf
+RUN sed -i -e"s/user\s*nginx;/user  www-data;/" /etc/nginx/nginx.conf
 
 # nginx site conf
-ADD ./nginx-site.conf /etc/nginx/sites-available/default
+ADD ./nginx-site.conf /etc/nginx/conf.d/default.conf
 
 # php-fpm Settings
 RUN sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.0/fpm/php.ini
