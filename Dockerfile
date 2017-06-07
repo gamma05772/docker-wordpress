@@ -23,7 +23,6 @@ RUN apt-get install -y nginx curl git unzip php php7.0-fpm php7.0-mysql php7.0-c
 # Nginx Settings
 RUN sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf
 RUN sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # nginx site conf
 ADD ./nginx-site.conf /etc/nginx/sites-available/default
@@ -52,14 +51,17 @@ ADD https://raw.githubusercontent.com/AndiDittrich/HttpErrorPages/master/dist/pa
 RUN cd /usr/share/nginx/errors/ && tar xvf pages.tar && rm pages.tar
 #RUN find . -maxdepth 1 -name "HTTP*.html" | sed -e 'p' -e "s/HTTP//g" |xargs -n 2 mv
 RUN mv /usr/share/nginx/wordpress /usr/share/nginx/www
+RUN mv /usr/share/nginx/errors /usr/share/nginx/www/
 # for plugins
 RUN sed -i -e "s/define('DB_COLLATE', '');/define('DB_COLLATE', '');\r\ndefine('FS_METHOD', 'direct');/" /usr/share/nginx/www/wp-config-sample.php
 
 RUN usermod -u 1000 www-data
 RUN usermod -G staff www-data
 RUN chown -R www-data:www-data /usr/share/nginx/www
-# Wordpress Initialization and Startup Script
-#RUN chown -R mysql:root /var/log/mysql
+
+# Cleanup
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
 
