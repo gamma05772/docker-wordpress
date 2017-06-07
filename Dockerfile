@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-MAINTAINER 9to6 <ktk0011@gmail.com>
+MAINTAINER 9to6 <ktk0011+dev@gmail.com>
 
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
