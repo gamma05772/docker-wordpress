@@ -2,7 +2,7 @@
 
 A Dockerfile that installs the latest wordpress, nginx, php7.0, mariadb 10.2 on Ubuntu 16.04 xenial
 
-docker + nginx + mariadb + supervisor + php7
+docker + nginx 1.13 + mariadb 10.2 + supervisor + php7
 
 Thanks to [eugeneware](https://github.com/eugeneware/docker-wordpress-nginx) for helping making this repository. 
 
